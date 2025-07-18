@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡️ Paul.AI(AI SaaS App)
+# ⚡️ Quick.AI(AI SaaS App)
 
 🚀 A Powerful, Full-Stack AI SaaS Application built with **MERN**, **Neon DB**, and **Clerk**  
 Unleash the power of AI to **generate blogs, create stunning images, remove backgrounds/objects, review resumes**, and more – all in one seamless dashboard!
