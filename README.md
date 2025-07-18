@@ -1,2 +1,23 @@
 #   Paul.AI  
-AI SaaS App is an all-in-one platform offering powerful AI tools for content and media generation. It includes features like an article/blog generator, image generator, background remover, object remover, and AI-powered resume reviewer. Built with modern technologies, it simplifies complex tasks using advanced AI models such as OpenAI and image processing APIs. Ideal for creators, developers, and professionals looking to automate and enhance their workflow. This project showcases the integration of multiple AI services into a seamless SaaS experience. Clean UI, fast performance, and practical use cases make it a smart addition to any productivity toolkit.
+# 🚀 AI SaaS App
+
+An all-in-one AI-powered SaaS application that brings together content generation and media editing tools to enhance productivity and creativity. This project is ideal for developers, creators, and professionals looking to leverage AI for everyday tasks.
+
+## ✨ Features
+
+- 📝 **Article & Blog Generator**  
+  Generate high-quality, SEO-optimized articles using OpenAI's language models.
+
+- 🖼️ **Image Generator**  
+  Create stunning visuals from text prompts using state-of-the-art image generation models.
+
+- 🧹 **Background Remover**  
+  Easily remove backgrounds from any image with a single click.
+
+- 🧽 **Object Remover**  
+  Select and remove unwanted objects from photos using deep learning techniques.
+
+- 📄 **Resume Review**  
+  Get smart AI feedback to improve your resume formatting, content, and structure.
+
+---
