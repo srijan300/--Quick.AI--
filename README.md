@@ -1,5 +1,4 @@
-#   Paul.AI  
-<h1 align="center">🧠✨ AI SaaS App</h1>
+ <h1 align="center">🧠✨ Paul.AI(AI SaaS App)</h1>
 <p align="center">
   Create • Edit • Empower — all in one place.
 </p>
