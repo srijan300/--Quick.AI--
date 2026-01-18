@@ -3,13 +3,12 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/server.js"
+      "destination": "/api/index.js"
     }
   ],
   "functions": {
-    "server.js": {
-      "maxDuration": 60,
-      "includeFiles": "dist/**"
+    "api/index.js": {
+      "maxDuration": 60
     }
   }
 }
