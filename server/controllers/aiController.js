@@ -11,6 +11,59 @@ const AI = new OpenAI({
     baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
+// Helper function to handle errors properly
+const handleError = (error, res) => {
+    console.error('Error details:', {
+        message: error.message,
+        response: error.response ? {
+            status: error.response.status,
+            statusText: error.response.statusText,
+            data: error.response.data,
+            body: error.response.body
+        } : null
+    });
+
+    // Handle API response errors (OpenAI SDK, axios, etc.)
+    if (error.response) {
+        const status = error.response.status || 500;
+        let errorData = error.response.data || error.response.body || {};
+        
+        // If errorData is a string, try to parse it as JSON
+        if (typeof errorData === 'string') {
+            try {
+                errorData = JSON.parse(errorData);
+            } catch (e) {
+                // If parsing fails, use the string as the message
+                return res.status(status).json({
+                    success: false,
+                    message: errorData || error.response.statusText || `API error: ${status}`
+                });
+            }
+        }
+        
+        // Try to extract error message from various possible locations
+        let errorMessage = 
+            errorData.error?.message || 
+            errorData.error?.detail ||
+            errorData.message || 
+            (typeof errorData.error === 'string' ? errorData.error : null) ||
+            error.response.statusText || 
+            `API error: ${status}`;
+
+        return res.status(status).json({
+            success: false, 
+            message: errorMessage
+        });
+    }
+
+    // Handle network errors or other errors without response
+    const errorMessage = error.message || 'An unexpected error occurred';
+    res.status(500).json({
+        success: false, 
+        message: errorMessage
+    });
+};
+
 export const generateArticle = async (req, res)=>{
     try {
         console.log('[generateArticle] headers:', req.headers && {
@@ -57,8 +110,7 @@ export const generateArticle = async (req, res)=>{
 
 
     } catch (error) {
-        console.log(error.message)
-        res.json({success: false, message: error.message})
+        handleError(error, res);
     }
 }
 
@@ -104,8 +156,7 @@ export const generateBlogTitle = async (req, res)=>{
 
 
     } catch (error) {
-        console.log(error.message)
-        res.json({success: false, message: error.message})
+        handleError(error, res);
     }
 }
 
@@ -146,8 +197,7 @@ export const generateImage = async (req, res)=>{
         res.json({ success: true, content: secure_url})
 
     } catch (error) {
-        console.log(error.message)
-        res.json({success: false, message: error.message})
+        handleError(error, res);
     }
 }
 
@@ -183,8 +233,7 @@ export const removeImageBackground = async (req, res)=>{
         res.json({ success: true, content: secure_url})
 
     } catch (error) {
-        console.log(error.message)
-        res.json({success: false, message: error.message})
+        handleError(error, res);
     }
 }
 
@@ -219,8 +268,7 @@ export const removeImageObject = async (req, res)=>{
         res.json({ success: true, content: imageUrl})
 
     } catch (error) {
-        console.log(error.message)
-        res.json({success: false, message: error.message})
+        handleError(error, res);
     }
 }
 
@@ -265,7 +313,6 @@ export const resumeReview = async (req, res)=>{
         res.json({ success: true, content})
 
     } catch (error) {
-        console.log(error.message)
-        res.json({success: false, message: error.message})
+        handleError(error, res);
     }
 }

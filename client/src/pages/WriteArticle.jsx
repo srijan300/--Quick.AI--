@@ -35,10 +35,14 @@ const WriteArticle = () => {
       if(data.success){
         setContent(data.content)
       }else{
-        toast.error(data.message)
+        toast.error(data.message || 'Failed to generate article')
       }
     } catch (error) {
-      toast.error(error.message)
+      // Extract error message from axios response or use default
+      const errorMessage = error.response?.data?.message || 
+                          error.message || 
+                          'Network error. Please try again.'
+      toast.error(errorMessage)
     }
     setLoading(false)
   }
