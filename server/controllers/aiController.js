@@ -95,12 +95,17 @@ export const generateArticle = async (req, res)=>{
         console.log('[generateArticle] body:', req.body)
         console.log('[generateArticle] file:', !!req.file)
         const { userId } = req.auth();
+        if (!req.body || Object.keys(req.body).length === 0) {
+            console.warn('[generateArticle] empty body')
+            return res.status(400).json({ success: false, message: 'Request body missing' })
+        }
         const { prompt, length } = req.body;
+        if (!prompt) return res.status(400).json({ success: false, message: 'Prompt is required' })
         const plan = req.plan;
         const free_usage = req.free_usage;
 
         if(plan !== 'premium' && free_usage >= 10){
-            return res.json({ success: false, message: "Limit reached. Upgrade to continue."})
+            return res.status(403).json({ success: false, message: "Limit reached. Upgrade to continue."})
         }
 
         const response = await AI.chat.completions.create({
@@ -145,12 +150,17 @@ export const generateBlogTitle = async (req, res)=>{
         console.log('[generateBlogTitle] body:', req.body)
         console.log('[generateBlogTitle] file:', !!req.file)
         const { userId } = req.auth();
+        if (!req.body || Object.keys(req.body).length === 0) {
+            console.warn('[generateBlogTitle] empty body')
+            return res.status(400).json({ success: false, message: 'Request body missing' })
+        }
         const { prompt } = req.body;
+        if (!prompt) return res.status(400).json({ success: false, message: 'Prompt is required' })
         const plan = req.plan;
         const free_usage = req.free_usage;
 
         if(plan !== 'premium' && free_usage >= 10){
-            return res.json({ success: false, message: "Limit reached. Upgrade to continue."})
+            return res.status(403).json({ success: false, message: "Limit reached. Upgrade to continue."})
         }
 
         const response = await AI.chat.completions.create({
@@ -192,11 +202,16 @@ export const generateImage = async (req, res)=>{
         console.log('[generateImage] body:', req.body)
         console.log('[generateImage] file:', !!req.file)
         const { userId } = req.auth();
+        if (!req.body || Object.keys(req.body).length === 0) {
+            console.warn('[generateImage] empty body')
+            return res.status(400).json({ success: false, message: 'Request body missing' })
+        }
         const { prompt, publish } = req.body;
+        if (!prompt) return res.status(400).json({ success: false, message: 'Prompt is required' })
         const plan = req.plan;
 
         if(plan !== 'premium'){
-            return res.json({ success: false, message: "This feature is only available for premium subscriptions"})
+            return res.status(403).json({ success: false, message: "This feature is only available for premium subscriptions"})
         }
 
         
@@ -233,10 +248,14 @@ export const removeImageBackground = async (req, res)=>{
         console.log('[removeImageBackground] file:', !!req.file)
         const { userId } = req.auth();
         const image = req.file;
+        if (!image) {
+            console.warn('[removeImageBackground] missing file')
+            return res.status(400).json({ success: false, message: 'File is required' })
+        }
         const plan = req.plan;
 
         if(plan !== 'premium'){
-            return res.json({ success: false, message: "This feature is only available for premium subscriptions"})
+            return res.status(403).json({ success: false, message: "This feature is only available for premium subscriptions"})
         }
 
         const {secure_url} = await cloudinary.uploader.upload(image.path, {
@@ -268,12 +287,16 @@ export const removeImageObject = async (req, res)=>{
         console.log('[removeImageObject] body:', req.body)
         console.log('[removeImageObject] file:', !!req.file)
         const { userId } = req.auth();
+        if ((!req.body || Object.keys(req.body).length === 0) && !req.file) {
+            console.warn('[removeImageObject] empty body and missing file')
+            return res.status(400).json({ success: false, message: 'Request body or file required' })
+        }
         const { object } = req.body;
         const image = req.file;
         const plan = req.plan;
 
         if(plan !== 'premium'){
-            return res.json({ success: false, message: "This feature is only available for premium subscriptions"})
+            return res.status(403).json({ success: false, message: "This feature is only available for premium subscriptions"})
         }
 
         const {public_id} = await cloudinary.uploader.upload(image.path)
@@ -306,8 +329,13 @@ export const resumeReview = async (req, res)=>{
         const resume = req.file;
         const plan = req.plan;
 
+        if (!resume) {
+            console.warn('[resumeReview] missing file')
+            return res.status(400).json({success: false, message: "Resume file is required"})
+        }
+
         if(plan !== 'premium'){
-            return res.json({ success: false, message: "This feature is only available for premium subscriptions"})
+            return res.status(403).json({ success: false, message: "This feature is only available for premium subscriptions"})
         }
 
         if(!resume){

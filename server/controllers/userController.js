@@ -29,12 +29,15 @@ export const toggleLikeCreation = async (req, res)=>{
     try {
 
         const {userId} = req.auth()
+        if (!req.body || Object.keys(req.body).length === 0) {
+            return res.status(400).json({ success: false, message: 'Request body missing' })
+        }
         const {id} = req.body
 
         const [creation] = await sql`SELECT * FROM creations WHERE id = ${id}`
 
         if(!creation){
-            return res.json({ success: false, message: "Creation not found" })
+            return res.status(404).json({ success: false, message: "Creation not found" })
         }
 
         const currentLikes = creation.likes;
@@ -56,6 +59,7 @@ export const toggleLikeCreation = async (req, res)=>{
 
         res.json({ success: true, message });
     } catch (error) {
-        res.json({ success: false, message: error.message });
+        console.error('[toggleLikeCreation] error', error)
+        res.status(500).json({ success: false, message: error.message })
     }
 }
