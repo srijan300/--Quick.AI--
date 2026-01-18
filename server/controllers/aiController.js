@@ -289,6 +289,10 @@ export const resumeReview = async (req, res)=>{
             return res.json({ success: false, message: "This feature is only available for premium subscriptions"})
         }
 
+        if(!resume){
+            return res.status(400).json({success: false, message: "No resume file provided. Please upload a PDF file."})
+        }
+
         if(resume.size > 5 * 1024 * 1024){
             return res.json({success: false, message: "Resume file size exceeds allowed size (5MB)."})
         }

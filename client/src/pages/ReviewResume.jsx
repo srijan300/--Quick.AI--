@@ -20,10 +20,21 @@ const ReviewResume = () => {
           try {
             setLoading(true)
 
+            if(!input){
+              toast.error('Please select a resume file to upload')
+              setLoading(false)
+              return
+            }
+
               const formData = new FormData()
               formData.append('resume', input)
 
-              const { data } = await axios.post('/api/ai/resume-review',formData, {headers: {Authorization: `Bearer ${await getToken()}`}})
+              const { data } = await axios.post('/api/ai/resume-review',formData, {
+                headers: {
+                  Authorization: `Bearer ${await getToken()}`
+                  // Note: Don't set Content-Type for FormData - axios sets it automatically with boundary
+                }
+              })
 
             if (data.success) {
               setContent(data.content)
