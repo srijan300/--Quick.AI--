@@ -1,23 +1,15 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "server.js",
-            "use": "@vercel/node",
-            "config": {
-                "includeFiles": ["dist/**"]
-            }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "server.js"
-        }
-    ],
-    "functions": {
-        "server.js": {
-            "maxDuration": 60
-        }
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/server.js"
     }
+  ],
+  "functions": {
+    "server.js": {
+      "maxDuration": 60,
+      "includeFiles": "dist/**"
+    }
+  }
 }
