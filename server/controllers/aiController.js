@@ -13,6 +13,13 @@ const AI = new OpenAI({
 
 export const generateArticle = async (req, res)=>{
     try {
+        console.log('[generateArticle] headers:', req.headers && {
+            origin: req.headers.origin,
+            'content-type': req.headers['content-type'],
+            authorization: req.headers.authorization ? 'present' : 'missing'
+        })
+        console.log('[generateArticle] body:', req.body)
+        console.log('[generateArticle] file:', !!req.file)
         const { userId } = req.auth();
         const { prompt, length } = req.body;
         const plan = req.plan;
@@ -57,6 +64,13 @@ export const generateArticle = async (req, res)=>{
 
 export const generateBlogTitle = async (req, res)=>{
     try {
+        console.log('[generateBlogTitle] headers:', req.headers && {
+            origin: req.headers.origin,
+            'content-type': req.headers['content-type'],
+            authorization: req.headers.authorization ? 'present' : 'missing'
+        })
+        console.log('[generateBlogTitle] body:', req.body)
+        console.log('[generateBlogTitle] file:', !!req.file)
         const { userId } = req.auth();
         const { prompt } = req.body;
         const plan = req.plan;
@@ -98,6 +112,13 @@ export const generateBlogTitle = async (req, res)=>{
 
 export const generateImage = async (req, res)=>{
     try {
+        console.log('[generateImage] headers:', req.headers && {
+            origin: req.headers.origin,
+            'content-type': req.headers['content-type'],
+            authorization: req.headers.authorization ? 'present' : 'missing'
+        })
+        console.log('[generateImage] body:', req.body)
+        console.log('[generateImage] file:', !!req.file)
         const { userId } = req.auth();
         const { prompt, publish } = req.body;
         const plan = req.plan;
@@ -132,6 +153,13 @@ export const generateImage = async (req, res)=>{
 
 export const removeImageBackground = async (req, res)=>{
     try {
+        console.log('[removeImageBackground] headers:', req.headers && {
+            origin: req.headers.origin,
+            'content-type': req.headers['content-type'],
+            authorization: req.headers.authorization ? 'present' : 'missing'
+        })
+        console.log('[removeImageBackground] body:', req.body)
+        console.log('[removeImageBackground] file:', !!req.file)
         const { userId } = req.auth();
         const image = req.file;
         const plan = req.plan;
@@ -162,6 +190,13 @@ export const removeImageBackground = async (req, res)=>{
 
 export const removeImageObject = async (req, res)=>{
     try {
+        console.log('[removeImageObject] headers:', req.headers && {
+            origin: req.headers.origin,
+            'content-type': req.headers['content-type'],
+            authorization: req.headers.authorization ? 'present' : 'missing'
+        })
+        console.log('[removeImageObject] body:', req.body)
+        console.log('[removeImageObject] file:', !!req.file)
         const { userId } = req.auth();
         const { object } = req.body;
         const image = req.file;
@@ -191,6 +226,13 @@ export const removeImageObject = async (req, res)=>{
 
 export const resumeReview = async (req, res)=>{
     try {
+        console.log('[resumeReview] headers:', req.headers && {
+            origin: req.headers.origin,
+            'content-type': req.headers['content-type'],
+            authorization: req.headers.authorization ? 'present' : 'missing'
+        })
+        console.log('[resumeReview] body:', req.body)
+        console.log('[resumeReview] file:', !!req.file)
         const { userId } = req.auth();
         const resume = req.file;
         const plan = req.plan;

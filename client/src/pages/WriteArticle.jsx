@@ -22,15 +22,15 @@ const WriteArticle = () => {
 
   const {getToken} = useAuth()
 
-  const onSubmitHandler = async (e)=>{
-    e.preventDefault();
-    try {
-      setLoading(true)
+  const onSubmitHandler = async (e)=>{     //It's usually called when the user submits a form.
+    e.preventDefault();                    //Prevents the default browser behavior of refreshing the page upon form submission.
+    try {                                 
+      setLoading(true)                     // //Indicates the request is in progress.
       const prompt = `Write an article about ${input} in ${selectedLength.text}`
 
-      const {data} = await axios.post('/api/ai/generate-article', {prompt, length:selectedLength.length}, {
+      const {data} = await axios.post('/api/ai/generate-article', {prompt, length:selectedLength.length}, {    //Sends a POST request to the backend endpoint 
         headers: {Authorization: `Bearer ${await getToken()}`}
-      })
+      })                                                           
 
       if(data.success){
         setContent(data.content)
