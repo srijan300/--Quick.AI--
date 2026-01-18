@@ -26,7 +26,23 @@ const handleError = (error, res) => {
     // Handle API response errors (OpenAI SDK, axios, etc.)
     if (error.response) {
         const status = error.response.status || 500;
-        let errorData = error.response.data || error.response.body || {};
+        // Handle null/undefined explicitly - use empty object as fallback
+        let errorData = error.response.data ?? error.response.body ?? null;
+        
+        // If errorData is null or undefined, provide a default based on status
+        if (errorData === null || errorData === undefined) {
+            const defaultMessages = {
+                403: 'Access forbidden. Please check your API key or permissions.',
+                401: 'Unauthorized. Please check your authentication.',
+                429: 'Rate limit exceeded. Please try again later.',
+                500: 'Internal server error. Please try again later.'
+            };
+            
+            return res.status(status).json({
+                success: false,
+                message: defaultMessages[status] || error.response.statusText || `API error: ${status}`
+            });
+        }
         
         // If errorData is a string, try to parse it as JSON
         if (typeof errorData === 'string') {
@@ -39,6 +55,11 @@ const handleError = (error, res) => {
                     message: errorData || error.response.statusText || `API error: ${status}`
                 });
             }
+        }
+        
+        // Ensure errorData is an object (fallback to empty object if not)
+        if (typeof errorData !== 'object' || errorData === null) {
+            errorData = {};
         }
         
         // Try to extract error message from various possible locations
